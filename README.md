@@ -75,9 +75,9 @@ random: number of random insignificant snps used in estimating prior
 
 The `GAP_bayesian_lrt()` function returns a data frame with:
 - `snp`: SNP identifier
-- `beta_01`: Updated effect size for trait 1
-- `beta_12`: Updated effect size for trait 2
-- `zscore_01`: Z-score for trait 1 association
-- `zscore_12`: Z-score for trait 2 association
+- `beta_01`: Updated effect size for trait 0 -> 1
+- `beta_12`: Updated effect size for trait 1 -> 2
+- `zscore_01`: Z-score for trait 0 -> 1
+- `zscore_12`: Z-score for trait 1 -> 2
 
 
