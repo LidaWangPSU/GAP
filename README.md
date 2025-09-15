@@ -16,7 +16,7 @@ Then you could install GAP from the repository here.
 
 ```
 devtools::install_github("LidaWangPSU/GAP/GAP")
-library(EXPRESSO)
+library(GAP)
 ```
 
 ## Functions
