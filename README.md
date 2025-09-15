@@ -29,7 +29,7 @@ install.packages(c("mvtnorm", "MASS"))
 # Step 1: Estimate prior parameters
 prior_params <- GAP_bayesian_prior(
   input = input_data, 
-  alpha = 0.5, 
+  alpha = log10(0.05), 
   p_theshold = 0.05, 
   random = 50
 )
