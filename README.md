@@ -71,6 +71,8 @@ alpha: lgo10 of the percentage of stage 1 in population (e.g. log10(0.05))
 
 P value thershold: P value thershold used for clumping (e.g. 5e-8)
 
+random: number of random insignificant snps used in estimating prior
+
 ## Output
 
 The `GAP_bayesian_lrt()` function returns a data frame with:
