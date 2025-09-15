@@ -1,91 +1,91 @@
 find_loci<-function(gwas){
   chrs<-unique(gwas$chr)
-  
+
   out<-data.frame()
   for(chr in chrs){
     cat("Check chr ",chr,"\n")
     gwas_sub<-gwas[which(gwas$chr==chr),]
     gwas_sub<- gwas_sub[order( gwas_sub$pval),]
     gwas_sub$top<-TRUE
-    
+
     region<-gwas_sub[1,"pos"]
-    
+
     if(nrow(gwas_sub)==1){
       out<-rbind(out,gwas_sub)
       next
     }
     cat(nrow(gwas_sub)," significant snps in chr ",chr,"\n")
     for(i in 2:nrow(gwas_sub)){
-      
-      
+
+
       tmp<-gwas_sub[i,"pos"]
       dis<-abs(region-tmp)
-      
+
       #if(min(dis1)<1000*1000|min(dis2)<1000*1000){
       if(min(dis)<2000*1000){
         gwas_sub$top[i]<-F
       }else{
         region<-c(region,gwas_sub[i,"pos"])
       }
-      
+
     }
-    
+
     out<-rbind(out,gwas_sub)
   }
-  
+
   return(out)
 }
 
 GAP_prior_v2<-function(x0,beta_m,se_m,alpha,rho){
-  
+
   s1<-as.numeric(x0[1])
   s2<-as.numeric(x0[2])
   s3<-as.numeric(x0[3])
-  
+
   if(s1==0|is.na(s1)){
     s1<-0.0001
   }
-  
+
   if(s2==0|is.na(s2)){
     s2<-0.0001
   }
-  
+
   if(is.na(s3)){
     s3<-0.0001
   }
-  
+
   m_t<-matrix(c(s1,s3,0,s2),nrow=2,nco=2)
   m<-t(m_t)%*%m_t
   t1<-sqrt(m[1,1])
   t2<-sqrt(m[2,2])
   r<-m[1,2]/(t1*t2)
-  
+
 
   p1<-exp(x0[4])
   p2<-exp(x0[5])
   p3<-exp(x0[6])
   p4<-1-p1-p2-p3
-  
+
   pp<-c(p1,p2,p3,p4)
-  
+
   integral_00 <- GAP_prior_00_integral_v2(beta=beta_m[,2:4],sd=se_m[,2:4],rho,t1,t2,r,alpha)
   integral_01 <- GAP_prior_01_integral_v2(beta=beta_m[,2:4],sd=se_m[,2:4],rho,t1,t2,r,alpha)
   integral_12 <- GAP_prior_12_integral_v2(beta=beta_m[,2:4],sd=se_m[,2:4],rho,t1,t2,r,alpha)
   integral_cc <- GAP_prior_cc_integral_v2(beta=beta_m[,2:4],sd=se_m[,2:4],rho,t1,t2,r,alpha)
-  
+
   ll<-cbind(integral_00,integral_01,integral_12,integral_cc)
   colSums(ll)
   ll
-  
+
   summary(ll)
   t<-apply(ll,1,which.max)
   table(t)
-  
+
   p_m<-matrix(pp,nrow=4,ncol=nrow(beta_m))
   p_m<-t(p_m)
   ll_final<-exp(ll)*p_m
   ll_row<-rowSums(ll_final)
-  
+
   -(sum(log(ll_row)))
 
 }
@@ -103,7 +103,7 @@ GAP_prior_01_integral_v2<-function(beta,sd,rho,t1,t2,r,alpha){
   s1<-mean(sd[,1])
   s2<-mean(sd[,2])
   sigma<-matrix(c(s1^2,s1*s2*rho,s1*s2*rho,s2^2),nrow=2,ncol=2)
-  
+
   V1<-mean(sd[,1])^2
   V2<-mean(sd[,2])^2
   Vcc<-mean(sd[,3])^2
@@ -113,10 +113,10 @@ GAP_prior_01_integral_v2<-function(beta,sd,rho,t1,t2,r,alpha){
   B=(V2*beta[,1]-rho*beta[,2]*sqrt(V1*V2))/(V1*V2*(1-rho^2))+beta[,3]/Vcc
   C=-(V1*beta[,2]^2+V2*beta[,1]^2-2*rho*sqrt(V1*V2)*beta[,2]*beta[,1])/(2*V1*V2*(1-rho^2))-0.5*beta[,3]^2/Vcc
   s=1/(2*pi*sqrt(det(sigma)))*1/(sqrt(2*pi*Vcc))*1/(sqrt(2*pi*t1^2))
-  
+
   return(log(s)+log(sqrt(2*pi/A))+B^2/(2*A)+C)
-  
-  
+
+
 }
 
 GAP_prior_12_integral_v2<-function(beta,sd,rho,t1,t2,r,alpha){
@@ -124,7 +124,7 @@ GAP_prior_12_integral_v2<-function(beta,sd,rho,t1,t2,r,alpha){
   s1<-mean(sd[,1])
   s2<-mean(sd[,2])
   sigma<-matrix(c(s1^2,s1*s2*rho,s1*s2*rho,s2^2),nrow=2,ncol=2)
-  
+
   V1<-mean(sd[,1])^2
   V2<-mean(sd[,2])^2
   Vcc<-mean(sd[,3])^2
@@ -134,36 +134,36 @@ GAP_prior_12_integral_v2<-function(beta,sd,rho,t1,t2,r,alpha){
   B=(V2*beta[,1]-rho*beta[,2]*sqrt(V1*V2))/(V1*V2*(1-rho^2))+beta[,3]/Vcc/(1+exp(alpha))
   C=-(V1*beta[,2]^2+V2*beta[,1]^2-2*rho*sqrt(V1*V2)*beta[,2]*beta[,1])/(2*V1*V2*(1-rho^2))-0.5*beta[,3]^2/Vcc
   s=1/(2*pi*sqrt(det(sigma)))*1/(sqrt(2*pi*Vcc))*1/(sqrt(2*pi*t1^2))
-  
+
   return(log(s)+log(sqrt(2*pi/A))+B^2/(2*A)+C)
-  
-  
+
+
 }
 
 GAP_prior_cc_integral_v2<-function(beta,sd,rho,t1,t2,r,alpha){
   omega<-matrix(c(t1^2,t1*t2*r,t1*t2*r,t2^2),nrow=2,ncol=2)
-  
-  
+
+
   s1<-mean(sd[,1])
   s2<-mean(sd[,2])
   sigma<-matrix(c(s1^2,s1*s2*rho,s1*s2*rho,s2^2),nrow=2,ncol=2)
   vcc<-1/mean(sd[,3])^2*matrix(c(1/(1+exp(alpha))^2,1/(1+exp(alpha)),1/(1+exp(alpha)),1),nrow=2,ncol=2)
-  
+
   A=ginv(omega)+ginv(sigma)+vcc
   b=as.matrix(beta[,1:2])%*%ginv(sigma)+matrix(c((beta[,3]/mean(sd[,3])^2/(1+exp(alpha))),(beta[,3]/mean(sd[,3])^2)),nrow=nrow(beta),ncol=2)
-  
+
   #c=-beta[,3]^2/(2*mean(sd[,3])^2)-rowSums(0.5*as.matrix(beta[,1:2])%*%ginv(sigma)*(as.matrix(beta[,1:2])))
   sigma_inv<-ginv(sigma)
   c=-beta[,3]^2/(2*mean(sd[,3])^2)-0.5*(sigma_inv[1,1]*beta[,1]^2+sigma_inv[2,2]*beta[,2]^2+2*sigma_inv[1,2]*beta[,1]*beta[,2])
   s=1/sqrt(2*pi^4*det(omega)*det(sigma)*mean(sd[,3])^2*det(A))
-  
+
   return(sapply(1:nrow(b), function(x){log(s) + 0.5*t(b[x,])%*%ginv(A)%*%b[x,]+c[x]}))
-  
+
 }
 
-GAP_bayesian_prior<-function(input,alpha,p_theshold,random){
- 
-  
+GAP_bayesian_prior<-function(input,alpha,p_threshold,random){
+
+
   beta<-as.data.frame(input[,c("snp","beta_01","beta_12","beta_cc")])
   se<-as.data.frame(input[,c("snp","se_01","se_12","se_cc")])
 
@@ -171,27 +171,27 @@ GAP_bayesian_prior<-function(input,alpha,p_theshold,random){
   input$pval_01<-pchisq((beta$beta_01/se$se_01)^2,df=1,lower.tail = F)
   input$pval_12<-pchisq((beta$beta_12/se$se_12)^2,df=1,lower.tail = F)
   input$pval_cc<-pchisq((beta$beta_cc/se$se_cc)^2,df=1,lower.tail = F)
-  
+
   ##calculate correlation from 01 and 12
   cutoff<-0.05
   snps<-beta$snp[which(input$pval_01>cutoff&input$pval_12>cutoff&input$pval_cc>cutoff)]
   rho<-cor(beta[match(snps,beta$snp),2:4])[2,1]
-  
+
   ##clump snps##
-  gwas<-input[which(input$pval_cc<p_theshold),c("snp","chr","pos","pval_cc")]
+  gwas<-input[which(input$pval_cc<p_threshold),c("snp","chr","pos","pval_cc")]
   colnames(gwas)<-c("snp","chr","pos","pval")
   loci_cc<-find_loci(gwas)
-  
-  
-  gwas<-input[which(input$pval_01<p_theshold),c("snp","chr","pos","pval_01")]
+
+
+  gwas<-input[which(input$pval_01<p_threshold),c("snp","chr","pos","pval_01")]
   colnames(gwas)<-c("snp","chr","pos","pval")
   loci_01<-find_loci(gwas)
-  
-  
-  gwas<-input[which(input$pval_12<p_theshold),c("snp","chr","pos","pval_12")]
+
+
+  gwas<-input[which(input$pval_12<p_threshold),c("snp","chr","pos","pval_12")]
   colnames(gwas)<-c("snp","chr","pos","pval")
   loci_12<-find_loci(gwas)
-  
+
   sig_snps<-unique(c(loci_cc$snp[which(loci_cc$top)],
                      loci_01$snp[which(loci_01$top)],
                      loci_12$snp[which(loci_12$top)]))
@@ -201,15 +201,15 @@ GAP_bayesian_prior<-function(input,alpha,p_theshold,random){
 
   beta_m<-beta[idx,]
   se_m<-se[idx,]
-  
+
   x0<-c(mean(se_m[,2]),mean(se_m[,3]),0,-3,-3,-3)
-  
+
   s<-suppressWarnings(
     nlminb(start = x0, GAP_prior_v2,beta_m=beta_m,se_m=se_m,alpha=alpha,rho=rho,lower = c(-Inf,-Inf,-Inf,-Inf,-Inf,-Inf), upper = c(Inf,Inf,Inf,0,0,0))
   )
-    
+
  s$par
-  
+
   s1<-s$par[1]
   s2<-s$par[2]
   s3<-s$par[3]
@@ -242,21 +242,21 @@ GAP_bayesian_p4_logl <- function(x0, beta,sd,rho,alpha,t1,t2,r){
   omega<-matrix(c(sd[1]^2,rho*sd[1]*sd[2],
                   rho*sd[1]*sd[2],sd[2]^2),nrow=2,ncol=2)
   omega_p<-matrix(c(t1^2,t1*t2*r,t1*t2*r,t2^2),nrow=2,ncol=2)
-  
+
   beta_cc<-log((exp(alpha)+1)/(exp(-x0[1])+exp(alpha)))+x0[2]
-  
+
   -dmvnorm(x0,mean=beta[1:2],sigma=omega,log=T)-dnorm(beta_cc,beta[3],sd[3],log=T)-dmvnorm(x0,c(0,0),omega_p,log=T)
 }
 
 GAP_bayesian_p4_logl_1_2_null <- function(x0, beta,sd,rho,alpha,t1,t2,r){
-  
+
   omega<-matrix(c(sd[1]^2,rho*sd[1]*sd[2],
                   rho*sd[1]*sd[2],sd[2]^2),nrow=2,ncol=2)
   omega_p<-matrix(c(t1^2,t1*t2*r,t1*t2*r,t2^2),nrow=2,ncol=2)
-  
+
   beta_cc<-log((exp(alpha)+1)/(exp(-x0[1])+exp(alpha)))
   #-log(abs(dnorm(x0,mean=beta[1],sd[1])*dnorm(beta_cc,beta[3],sd[3])))
-  
+
   -dmvnorm(c(x0,0),mean=beta[1:2],sigma=omega,log=T)-dnorm(beta_cc,beta[3],sd[3],log=T)-dmvnorm(c(x0,0),c(0,0),omega_p,log=T)
 }
 
@@ -264,43 +264,43 @@ GAP_bayesian_p4_logl_0_1_null <- function(x0, beta,sd,rho,alpha,t1,t2,r){
   omega<-matrix(c(sd[1]^2,rho*sd[1]*sd[2],
                   rho*sd[1]*sd[2],sd[2]^2),nrow=2,ncol=2)
   omega_p<-matrix(c(t1^2,t1*t2*r,t1*t2*r,t2^2),nrow=2,ncol=2)
-  
+
   beta_cc<-x0
   -dmvnorm(c(0,x0),mean=beta[1:2],sigma=omega,log=T)-dnorm(beta_cc,beta[3],sd[3],log=T)-dmvnorm(c(0,x0),c(0,0),omega_p,log=T)
 }
 
 GAP_bayesian_lrt<-function(input,alpha,prior){
-  
-  
+
+
   beta_m<-as.data.frame(input[,c("snp","beta_01","beta_12","beta_cc")])
   se_m<-as.data.frame(input[,c("snp","se_01","se_12","se_cc")])
-  
+
   ##calculate p value##
   input$pval_01<-pchisq((beta_m$beta_01/se_m$se_01)^2,df=1,lower.tail = F)
   input$pval_12<-pchisq((beta_m$beta_12/se_m$se_12)^2,df=1,lower.tail = F)
   input$pval_cc<-pchisq((beta_m$beta_cc/se_m$se_cc)^2,df=1,lower.tail = F)
-  
+
   ##calculate correlation from 01 and 12
   cutoff<-0.05
   snps<-input$snp[which(input$pval_01>cutoff&input$pval_12>cutoff&input$pval_cc>cutoff)]
   rho<-cor(beta_m[match(snps,beta_m$snp),2:4])[2,1]
-  
+
   beta_m<-as.data.frame(beta_m)
   se_m<-as.data.frame(se_m)
-  
+
   cat(paste0(nrow(beta_m)," rows of GWAS in total \n"))
-  
+
   t1<-prior$tau[1]
   t2<-prior$tau[2]
   r<-prior$tau[3]
-  
+
   p1<-prior$p[1]
   p2<-prior$p[2]
   p3<-prior$p[3]
   p4<-prior$p[4]
-  
+
   snp<-beta_m$snp
-  
+
   beta_new_00<-data.frame()
   beta_new_01<-data.frame()
   beta_new_12<-data.frame()
@@ -309,11 +309,11 @@ GAP_bayesian_lrt<-function(input,alpha,prior){
   se_new_01_12<-c()
   se_new_cc_01<-c()
   se_new_cc_12<-c()
-  
+
   seps<-seq(5000,nrow(beta_m),by=5000)
-  
+
   for(i in 1:nrow(beta_m)){
-    
+
     if(!is.na(match(i,seps))){
       cat(paste0("Finshed ",i," SNPs \n"))
     }
@@ -322,7 +322,7 @@ GAP_bayesian_lrt<-function(input,alpha,prior){
     sd[2]<-se_m$se_12[i]
     sigma<-matrix(c(sd[1]^2,rho*sd[1]*sd[2],
                     rho*sd[1]*sd[2],sd[2]^2),nrow=2,ncol=2)
-    
+
     sigma_inv<-ginv(sigma)
     omega_inv<-1/mean(se_m$se_cc)^2*matrix(c(1/(1+exp(alpha))^2,1/(1+exp(alpha)),1/(1+exp(alpha)),1),nrow=2,ncol=2)
     omega<-ginv(omega_inv)
@@ -330,10 +330,10 @@ GAP_bayesian_lrt<-function(input,alpha,prior){
     x0=as.numeric(beta_m[i,2:3])
     b<-as.numeric(beta_m[i,2:4])
     sd<-as.numeric(se_m[i,2:4])
-    
+
     ##p1
     beta_new_00<-rbind(beta_new_00,c(0,0))
-    
+
     ##p2 b01=0
     ### full model
     s<-nlminb(start = 0, GAP_bayesian_p2_logl,beta=b,sd=sd,rho=rho,alpha=alpha,t1=t1,t2=t2,r=r)
@@ -347,7 +347,7 @@ GAP_bayesian_lrt<-function(input,alpha,prior){
     GAP_zscore_1_2<-delta_12^0.5*sign(s$par)
     beta_new_01<-rbind(beta_new_01,c(0,s$par))
     se_new_01_12[i]<-s$par/GAP_zscore_1_2
-    
+
     ##p3 b12=0
     ### full model
     s<-nlminb(start = x0[1], GAP_bayesian_p3_logl,beta=b,sd=sd,rho=rho,alpha=alpha,t1=t1,t2=t2,r=r)
@@ -361,7 +361,7 @@ GAP_bayesian_lrt<-function(input,alpha,prior){
     GAP_zscore_0_1<-delta_01^0.5*sign(s$par)
     beta_new_12<-rbind(beta_new_12,c(s$par,0))
     se_new_12_01[i]<-s$par/GAP_zscore_0_1
-    
+
     #p4
     ### full model
     s<-nlminb(start = x0, GAP_bayesian_p4_logl,beta=b,sd=sd,rho=rho,alpha=alpha,t1=t1,t2=t2,r=r)
@@ -369,45 +369,45 @@ GAP_bayesian_lrt<-function(input,alpha,prior){
     s_12<-nlminb(start = x0[1], GAP_bayesian_p4_logl_1_2_null,beta=b,sd=sd,rho=rho,alpha=alpha,t1=t1,t2=t2,r=r)
     ### reduced model with beta_01=0
     s_01<-nlminb(start = x0[2], GAP_bayesian_p4_logl_0_1_null,beta=b,sd=sd,rho=rho,alpha=alpha,t1=t1,t2=t2,r=r)
-    
+
     logli<-s$objective
     logli_01<-s_01$objective
     logli_12<-s_12$objective
-    
+
     delta_01<-2*(logli_01-logli)
     delta_12<-2*(logli_12-logli)
-    
+
     if(delta_01<0){
       delta_01<-0
     }
-    
+
     if(delta_12<0){
       delta_12<-0
     }
-    
+
     GAP_zscore_0_1<-delta_01^0.5*sign(s$par[1])
     GAP_zscore_1_2<-delta_12^0.5*sign(s$par[2])
-    
+
     beta_new_cc<-rbind(beta_new_cc,s$par)
     se_new_cc_01[i]<-s$par[1]/GAP_zscore_0_1
     se_new_cc_12[i]<-s$par[2]/GAP_zscore_1_2
-    
+
   }
-  
-  
+
+
   ##mix prior
   beta_new<-p1*beta_new_00+p2*beta_new_01+p3*beta_new_12+p4*beta_new_cc
   se_new<-data.frame()
   se_new_all_01<-sqrt(p3^2*se_new_12_01^2+p4^2*se_new_cc_01^2)
   se_new_all_12<-sqrt(p2^2*se_new_01_12^2+p4^2*se_new_cc_12^2)
-  
+
   zscore_01<-beta_new[,1]/se_new_all_01
   zscore_12<-beta_new[,2]/se_new_all_12
-  
+
   summary(beta_m[1:100,2:3]/se_m[1:100,2:3])
   summary(zscore_01)
   summary(zscore_12)
-  
+
   df=cbind(snp,beta_new,zscore_01,zscore_12)
   colnames(df)<-c("snp","beta_01","beta_12","zscore_01","zscore_12")
   return(df)
