@@ -69,7 +69,7 @@ The input data frame must contain the following columns:
 
 alpha: lgo10 of the percentage of stage 1 in population (e.g. log10(0.05))
 
-P value thershold: P value thershold used for clumping (e.g. 5e-8)
+p_threshold: P value thershold used for clumping (e.g. 5e-8)
 
 random: number of random insignificant snps used in estimating prior
 
