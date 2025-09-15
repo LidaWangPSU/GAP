@@ -60,9 +60,9 @@ The input data frame must contain the following columns:
 - `snp`: SNP identifier
 - `chr`: Chromosome number
 - `pos`: Genomic position (in base pairs)
-- `beta_01`: Effect size for trait 1
-- `beta_12`: Effect size for trait 2
-- `beta_cc`: Effect size for the combined trait
+- `beta_01`: Effect size for trait 0 -> 1
+- `beta_12`: Effect size for trait 1 -> 2
+- `beta_cc`: Effect size for case control study
 - `se_01`: Standard error for beta_01
 - `se_12`: Standard error for beta_12
 - `se_cc`: Standard error for beta_cc
