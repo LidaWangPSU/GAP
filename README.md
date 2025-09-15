@@ -46,7 +46,7 @@ prior_params <- GAP_bayesian_prior(
 # Step 2: Perform likelihood ratio tests
 results <- GAP_bayesian_lrt(
   input = input_data, 
-  alpha = 0.5, 
+  alpha = log10(0.05), 
   prior = prior_params
 )
 
@@ -67,8 +67,9 @@ The input data frame must contain the following columns:
 - `se_12`: Standard error for beta_12
 - `se_cc`: Standard error for beta_cc
 
-alpha: 
-P value thershold
+alpha: lgo10 of the percentage of stage 1 in population (e.g. log10(0.05))
+
+P value thershold: P value thershold used for clumping (e.g. 5e-8)
 
 ## Output
 
