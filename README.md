@@ -30,7 +30,7 @@ install.packages(c("mvtnorm", "MASS"))
 prior_params <- GAP_bayesian_prior(
   input = input_data, 
   alpha = log10(0.05), 
-  p_theshold = 0.05, 
+  p_threshold = 5e-8, 
   random = 50
 )
 
@@ -57,6 +57,9 @@ The input data frame must contain the following columns:
 - `se_01`: Standard error for beta_01
 - `se_12`: Standard error for beta_12
 - `se_cc`: Standard error for beta_cc
+
+alpha: 
+P value thershold
 
 ## Output
 
