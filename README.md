@@ -1,6 +1,6 @@
 # GAP (Genetic Association with Progression) Package
 
-This R package provides functions for analyzing pleiotropic genetic associations using the GAP model.
+This R package provides functions for GAP (Genetic Association with Progression)..
 
 ## Installation
 
@@ -14,24 +14,14 @@ install.packages(c("mvtnorm", "MASS"))
 
 ### Main Functions
 
-- `find_loci()` - Find independent loci in GWAS data by clumping SNPs
 - `GAP_bayesian_prior()` - Estimate GAP Bayesian prior parameters
-- `GAP_bayesian_lrt()` - Perform likelihood ratio tests for pleiotropic associations
+- `GAP_bayesian_lrt()` - Perform likelihood ratio tests for progression associations
 
-### Internal Functions
-
-- `GAP_prior_v2()` - GAP prior likelihood function
-- `GAP_prior_00_integral_v2()` - Prior integral for no association state
-- `GAP_prior_01_integral_v2()` - Prior integral for trait 1 only association
-- `GAP_prior_12_integral_v2()` - Prior integral for trait 2 only association
-- `GAP_prior_cc_integral_v2()` - Prior integral for pleiotropic association
-- Various log-likelihood functions for different model states
 
 ## Usage Example
 
 ```r
 # Load the functions
-source("gap.R")
 
 # Prepare your data (must have columns: snp, chr, pos, beta_01, beta_12, beta_cc, se_01, se_12, se_cc)
 # input_data <- your_gwas_data
@@ -40,19 +30,19 @@ source("gap.R")
 prior_params <- GAP_bayesian_prior(
   input = input_data, 
   alpha = 0.5, 
-  p_theshold = 5e-8, 
-  random = 100
+  p_theshold = 0.05, 
+  random = 50
 )
 
 # Step 2: Perform likelihood ratio tests
-lrt_results <- GAP_bayesian_lrt(
+results <- GAP_bayesian_lrt(
   input = input_data, 
   alpha = 0.5, 
   prior = prior_params
 )
 
 # View results
-head(lrt_results)
+head(results)
 ```
 
 ## Data Format
@@ -77,6 +67,4 @@ The `GAP_bayesian_lrt()` function returns a data frame with:
 - `zscore_01`: Z-score for trait 1 association
 - `zscore_12`: Z-score for trait 2 association
 
-## References
 
-This package implements the GAP (Genetic Association with Pleiotropy) model for analyzing pleiotropic genetic associations.
