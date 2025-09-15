@@ -7,7 +7,16 @@ This R package provides functions for GAP (Genetic Association with Progression)
 To use this package, ensure you have the required dependencies installed:
 
 ```r
-install.packages(c("mvtnorm", "MASS"))
+install.packages(c("mvtnorm", "MASS","devtools"))
+library(mvtnorm)
+library(MASS)
+library(devtools)
+```
+Then you could install GAP from the repository here.
+
+```
+devtools::install_github("LidaWangPSU/GAP/GAP")
+library(EXPRESSO)
 ```
 
 ## Functions
