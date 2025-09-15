@@ -30,14 +30,13 @@ library(GAP)
 ## Usage Example
 
 ```r
-# Load the functions
+library(GAP)
 
-# Prepare your data (must have columns: snp, chr, pos, beta_01, beta_12, beta_cc, se_01, se_12, se_cc)
-# input_data <- your_gwas_data
+# input <- your_gwas_data
 
 # Step 1: Estimate prior parameters
 prior_params <- GAP_bayesian_prior(
-  input = input_data, 
+  input = input, 
   alpha = log10(0.05), 
   p_threshold = 5e-8, 
   random = 50
@@ -55,8 +54,7 @@ head(results)
 ```
 
 ## Data Format
-
-The input data frame must contain the following columns:
+input:
 - `snp`: SNP identifier
 - `chr`: Chromosome number
 - `pos`: Genomic position (in base pairs)
