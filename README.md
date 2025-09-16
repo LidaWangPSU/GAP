@@ -44,7 +44,7 @@ prior_params <- GAP_bayesian_prior(
 
 # Step 2: Perform likelihood ratio tests
 results <- GAP_bayesian_lrt(
-  input = input_data, 
+  input = input, 
   alpha = log10(0.05), 
   prior = prior_params
 )
