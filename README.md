@@ -65,7 +65,7 @@ input:
 - `se_12`: Standard error for beta_12
 - `se_cc`: Standard error for beta_cc
 
-alpha: lgo10 of the percentage of stage 1 in population (e.g. log10(0.05))
+alpha: measuring the logarithm of the ratio of sample size of stage 1 and stage 0 in the datasets(e.g. log10(0.05))
 
 p_threshold: P value thershold used for clumping (e.g. 5e-8)
 
