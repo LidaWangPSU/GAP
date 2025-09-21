@@ -49,8 +49,6 @@ results <- GAP_bayesian_lrt(
   prior = prior_params
 )
 
-# View results
-head(results)
 ```
 
 ## Data Format
