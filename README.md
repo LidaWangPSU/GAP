@@ -1,6 +1,6 @@
 # GAP (Genetic Association with Progression) Package
 
-This R package provides functions for GAP (Genetic Association with Progression)..
+GAP provides methods to decompose case–control genetic effects into stage-specific components and test for genetic associations with disease progression (e.g., Healthy → ANA+ and ANA+ → SLE).
 
 ## Installation
 
@@ -71,8 +71,6 @@ p_threshold: P value thershold used for clumping (e.g. 5e-8)
 
 random: number of random insignificant snps used in estimating prior (e.g. 50, 100, etc.)
 
-Example input and output are available from here [https://github.com/LidaWangPSU/GAP/tree/main/example_data]
-
 ## Output
 
 The `GAP_bayesian_lrt()` function returns a data frame with:
@@ -82,4 +80,13 @@ The `GAP_bayesian_lrt()` function returns a data frame with:
 - `zscore_01`: Z-score for trait 0 -> 1
 - `zscore_12`: Z-score for trait 1 -> 2
 
+## Examples & test data
+
+Example input and output:
+https://github.com/LidaWangPSU/GAP/tree/main/example_data
+
+You can reproduce the quick start using those files; the example typically completes in <10 minutes on a standard laptop.
+
+## Contact
+Lida Wang [lida.wang.96@gmail.com](lida.wang.96@gmail.com)
 
