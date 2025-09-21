@@ -69,7 +69,7 @@ alpha: measuring the logarithm of the ratio of sample size of stage 1 and stage 
 
 p_threshold: P value thershold used for clumping (e.g. 5e-8)
 
-random: number of random insignificant snps used in estimating prior
+random: number of random insignificant snps used in estimating prior (e.g. 50, 100, etc.)
 
 Example input and output are available from here [https://github.com/LidaWangPSU/GAP/tree/main/example_data]
 
