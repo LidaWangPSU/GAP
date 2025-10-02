@@ -78,7 +78,7 @@ find_loci <- function(gwas) {
 #' GAP Prior Likelihood Function (Version 2)
 #'
 #' Calculates the negative log-likelihood for the GAP (Genetic Association with
-#' Pleiotropy) prior model. This is an internal function used in the optimization
+#' Progression) prior model. This is an internal function used in the optimization
 #' process to estimate prior parameters.
 #'
 #' @param x0 A numeric vector of length 6 containing the parameters to optimize:
@@ -103,7 +103,7 @@ find_loci <- function(gwas) {
 #'   \item State 00: No association with either trait
 #'   \item State 01: Association with trait 1 only
 #'   \item State 12: Association with trait 2 only
-#'   \item State cc: Association with both traits (pleiotropy)
+#'   \item State cc: Association with both traits (Progression)
 #' }
 #'
 #' The function calculates the likelihood for each state and combines them
@@ -313,7 +313,7 @@ GAP_prior_cc_integral_v2 <- function(beta, sd, rho, t1, t2, r, alpha) {
 
 #' Estimate GAP Bayesian Prior Parameters
 #'
-#' Estimates the prior parameters for the GAP (Genetic Association with Pleiotropy)
+#' Estimates the prior parameters for the GAP (Genetic Association with Progression)
 #' model using a subset of significant and random SNPs.
 #'
 #' @param input A data frame containing GWAS results with the following columns:
@@ -600,7 +600,7 @@ GAP_bayesian_p4_logl_0_1_null <- function(x0, beta, sd, rho, alpha, t1, t2, r) {
 
 #' GAP Bayesian Likelihood Ratio Test
 #'
-#' Performs likelihood ratio tests for the GAP (Genetic Association with Pleiotropy)
+#' Performs likelihood ratio tests for the GAP (Genetic Association with Progression)
 #' model to test for associations with each trait individually and pleiotropically.
 #'
 #' @param input A data frame containing GWAS results with the following columns:
