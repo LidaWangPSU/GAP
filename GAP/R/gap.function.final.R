@@ -269,9 +269,8 @@ GAP_prior_12_integral_v2 <- function(beta, sd, rho, t1, t2, r, alpha) {
   return(log(s) + log(sqrt(2 * pi / A)) + B^2 / (2 * A) + C)
 }
 
-#' GAP Prior Integral for State cc (Pleiotropic Association)
+#' GAP Prior Integral for case control
 #'
-#' Calculates the log-likelihood integral for the GAP model state cc,
 #' representing pleiotropic association with both traits (beta_01 != 0, beta_12 != 0).
 #'
 #' @param beta A matrix of effect sizes with columns for beta_01, beta_12, beta_cc
@@ -495,7 +494,7 @@ GAP_bayesian_p3_logl <- function(x0, beta, sd, rho, alpha, t1, t2, r) {
   -(dmvnorm(c(x0, 0), mean = beta[1:2], omega, log = T) + dnorm(beta_cc, beta[3], sd[3], log = T) + dnorm(x0, 0, t1, log = T))
 }
 
-#' GAP Bayesian Log-likelihood for State 4 (Pleiotropic Association)
+#' GAP Bayesian Log-likelihood for both
 #'
 #' Calculates the log-likelihood for the GAP model state where there is
 #' pleiotropic association with both traits (beta_01 != 0, beta_12 != 0).
@@ -531,7 +530,7 @@ GAP_bayesian_p4_logl <- function(x0, beta, sd, rho, alpha, t1, t2, r) {
   -dmvnorm(x0, mean = beta[1:2], sigma = omega, log = T) - dnorm(beta_cc, beta[3], sd[3], log = T) - dmvnorm(x0, c(0, 0), omega_p, log = T)
 }
 
-#' GAP Bayesian Log-likelihood for State 4 with Trait 2 Null
+#' GAP Bayesian Log-likelihood for both Trait 2 Null
 #'
 #' Calculates the log-likelihood for the GAP model state 4 with the constraint
 #' that beta_12 = 0 (trait 2 null hypothesis).
