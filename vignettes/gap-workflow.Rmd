@@ -5,69 +5,49 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
-
 `GAP` fits a genetic association with progression model using summary-level
 effect sizes and standard errors.
-
 This vignette shows how to:
-
 1. Load the packaged example input file.
 2. Inspect the required columns.
 3. Run a small prior-estimation example.
 4. Use the fitted prior in `GAP_bayesian_lrt()`.
-
 ## Load the example data
-
 ```{r}
 library(GAP)
-
 gap_input <- gap_example_data()
-
 dim(gap_input)
 names(gap_input)
 head(gap_input)
 ```
-
 The bundled example file path is also available through:
-
 ```{r}
 gap_example_path()
 ```
-
-## Estimate a prior on a small subset
-
-`GAP_bayesian_prior()` can be expensive on large inputs, so the vignette uses a
-small subset just to show the workflow.
-
+## Estimate prior parameters
 ```{r}
-set.seed(1)
-subset_idx <- sample(seq_len(nrow(gap_input)), 250)
-prior_example <- GAP_bayesian_prior(
-  input = gap_input[subset_idx, ],
-  alpha = 0,
-  p_threshold = 1e-4,
-  random = 100
+input <- gap_input
+prior_params <- GAP_bayesian_prior(
+  input = input,
+  alpha = log10(0.05),
+  p_threshold = 5e-8,
+  random = 50
 )
-
-str(prior_example)
+str(prior_params)
 ```
-
 After estimating the prior, you can pass it to `GAP_bayesian_lrt()` on the
 dataset you want to analyze.
-
 ```{r, eval = FALSE}
 lrt_results <- GAP_bayesian_lrt(
-  input = gap_input,
-  alpha = 0,
-  prior = prior_example
+  input = input,
+  alpha = log10(0.05),
+  prior = prior_params
 )
-
 head(lrt_results)
 ```
