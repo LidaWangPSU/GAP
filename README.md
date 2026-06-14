@@ -15,7 +15,7 @@ install.packages(c("mvtnorm", "MASS", "devtools"))
 Then install `GAP` from GitHub:
 
 ```r
-devtools::install_github("LidaWangPSU/GAP")
+devtools::install_github("LidaWangPSU/GAP", build_vignettes = TRUE, force = TRUE)
 library(GAP)
 ```
 
