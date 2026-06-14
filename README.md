@@ -1,33 +1,58 @@
 # GAP (Genetic Association with Progression) Package
 
-GAP provides methods to decompose case–control genetic effects into stage-specific components and test for genetic associations with disease progression (e.g., Healthy → ANA+ and ANA+ → SLE).
+`GAP` provides methods to decompose case-control genetic effects into
+stage-specific components and test for genetic associations with disease
+progression, such as Healthy -> ANA+ and ANA+ -> SLE.
 
 ## Installation
 
-To use this package, ensure you have the required dependencies installed:
+Install the required dependencies first:
 
 ```r
-install.packages(c("mvtnorm", "MASS","devtools"))
-library(mvtnorm)
-library(MASS)
-library(devtools)
+install.packages(c("mvtnorm", "MASS", "devtools"))
 ```
-Then you could install GAP from the repository here.
 
-```
-devtools::install_github("LidaWangPSU/GAP/GAP")
+Then install `GAP` from GitHub:
+
+```r
+devtools::install_github("LidaWangPSU/GAP")
 library(GAP)
 ```
 
-## Functions
+You can also install from a local source tarball:
 
-### Main Functions
+```r
+install.packages("GAP_0.1.0.tar.gz", repos = NULL, type = "source")
+library(GAP)
+```
 
-- `GAP_bayesian_prior()` - Estimate GAP Bayesian prior parameters
-- `GAP_bayesian_lrt()` - Perform likelihood ratio tests for progression associations
+## Main functions
 
+- `GAP_bayesian_prior()` estimates GAP Bayesian prior parameters.
+- `GAP_bayesian_lrt()` performs likelihood ratio tests for progression associations.
+- `find_loci()` identifies approximately independent loci by distance-based clumping.
 
-## Usage Example
+## Input data format
+
+`GAP_bayesian_prior()` and `GAP_bayesian_lrt()` expect an input data frame with:
+
+- `snp`: SNP identifier
+- `chr`: Chromosome number
+- `pos`: Genomic position in base pairs
+- `beta_01`: Effect size for trait 0 -> 1
+- `beta_12`: Effect size for trait 1 -> 2
+- `beta_cc`: Effect size for the case-control study
+- `se_01`: Standard error for `beta_01`
+- `se_12`: Standard error for `beta_12`
+- `se_cc`: Standard error for `beta_cc`
+
+Arguments:
+
+- `alpha`: log-scale quantity describing the ratio of sample size between stage-specific datasets, for example `log10(0.05)`
+- `p_threshold`: p-value threshold used for clumping, for example `5e-8`
+- `random`: number of random non-significant SNPs used when estimating the prior, for example `50` or `100`
+
+## Usage example
 
 ```r
 library(GAP)
@@ -36,55 +61,81 @@ library(GAP)
 
 # Step 1: Estimate prior parameters
 prior_params <- GAP_bayesian_prior(
-  input = input, 
-  alpha = log10(0.05), 
-  p_threshold = 5e-8, 
+  input = input,
+  alpha = log10(0.05),
+  p_threshold = 5e-8,
   random = 50
 )
 
 # Step 2: Perform likelihood ratio tests
 results <- GAP_bayesian_lrt(
-  input = input, 
-  alpha = log10(0.05), 
+  input = input,
+  alpha = log10(0.05),
   prior = prior_params
 )
 
+head(results)
 ```
-
-## Data Format
-input:
-- `snp`: SNP identifier
-- `chr`: Chromosome number
-- `pos`: Genomic position (in base pairs)
-- `beta_01`: Effect size for trait 0 -> 1
-- `beta_12`: Effect size for trait 1 -> 2
-- `beta_cc`: Effect size for case control study
-- `se_01`: Standard error for beta_01
-- `se_12`: Standard error for beta_12
-- `se_cc`: Standard error for beta_cc
-
-alpha: measuring the logarithm of the ratio of sample size of stage 1 and stage 0 in the datasets(e.g. log10(0.05))
-
-p_threshold: P value thershold used for clumping (e.g. 5e-8)
-
-random: number of random insignificant snps used in estimating prior (e.g. 50, 100, etc.)
 
 ## Output
 
-The `GAP_bayesian_lrt()` function returns a data frame with:
+`GAP_bayesian_lrt()` returns a data frame with:
+
 - `snp`: SNP identifier
-- `beta_01`: Updated effect size for trait 0 -> 1
-- `beta_12`: Updated effect size for trait 1 -> 2
-- `zscore_01`: Z-score for trait 0 -> 1
-- `zscore_12`: Z-score for trait 1 -> 2
+- `beta_01`: updated effect size for trait 0 -> 1
+- `beta_12`: updated effect size for trait 1 -> 2
+- `zscore_01`: z-score for trait 0 -> 1
+- `zscore_12`: z-score for trait 1 -> 2
 
-## Examples & test data
+## Vignette
 
-Example input and output:
-https://github.com/LidaWangPSU/GAP/tree/main/example_data
+This package includes a vignette showing a full workflow using the packaged
+chr22 example files.
 
-You can reproduce the quick start using those files; the example typically completes in <10 minutes on a standard laptop.
+After installing the package, open the vignette with:
+
+```r
+vignette("gap-workflow", package = "GAP")
+```
+
+Or browse all available vignettes:
+
+```r
+browseVignettes("GAP")
+```
+
+The vignette demonstrates how to:
+
+- load the packaged example files
+- parse chromosome and position information from the example IDs
+- build a valid GAP input table
+- run `GAP_bayesian_prior()` on a small working subset
+
+## Packaged example data
+
+The package includes two gzipped example files under `inst/extdata`:
+
+- `example_beta_chr22.txt.gz`
+- `example_beta_se_chr22.txt.gz`
+
+You can access them from R with:
+
+```r
+gap_example_beta_path()
+gap_example_se_path()
+
+example_files <- gap_example_data()
+names(example_files)
+head(example_files$beta)
+head(example_files$se)
+```
+
+## Example data repository
+
+The original example files are also available in the GitHub repository:
+
+[https://github.com/LidaWangPSU/GAP/tree/main/example_data](https://github.com/LidaWangPSU/GAP/tree/main/example_data)
 
 ## Contact
-Lida Wang [lida.wang.96@gmail.com](lida.wang.96@gmail.com)
 
+Lida Wang: [lida.wang.96@gmail.com](mailto:lida.wang.96@gmail.com)
