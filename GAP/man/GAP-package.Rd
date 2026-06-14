@@ -4,13 +4,18 @@
 \name{GAP-package}
 \alias{GAP}
 \alias{GAP-package}
-\title{GAP: Genetic Association with Pleiotropy}
+\title{GAP: Genetic Association with Progression}
 \description{
 Statistical routines for fitting the GAP model, estimating prior
 parameters, and computing likelihood-based association summaries.
 }
 \author{
-\strong{Maintainer}: Lida Wang \email{lida@example.com}
+\strong{Maintainer}: Lida Wang \email{lida.wang.96@gmail.com}
+
+Authors:
+\itemize{
+  \item Lida Wang \email{lida.wang.96@gmail.com}
+}
 
 }
 \keyword{internal}
