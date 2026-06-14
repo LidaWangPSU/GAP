@@ -1,0 +1,20 @@
+Package: GAP
+Type: Package
+Title: Genetic Association with Pleiotropy
+Version: 0.1.0
+Authors@R: person("Lida", "Wang", email = "lida@example.com", role = c("aut", "cre"))
+Description: Tools for fitting the GAP (Genetic Association with Pleiotropy)
+    model, estimating empirical priors, and running likelihood-based tests
+    for shared and trait-specific genetic effects.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.1.0)
+Imports: MASS, mvtnorm, stats
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+NeedsCompilation: no
+Packaged: 2026-06-14 17:40:26 UTC; lida
+Author: Lida Wang [aut, cre]
+Maintainer: Lida Wang <lida@example.com>

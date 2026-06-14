@@ -1,0 +1,32 @@
+find_loci               Find Independent Loci in GWAS Data
+GAP_bayesian_lrt        GAP Bayesian Likelihood Ratio Test
+GAP_bayesian_p2_logl    GAP Bayesian Log-likelihood for State 2 (Trait
+                        1 Only)
+GAP_bayesian_p3_logl    GAP Bayesian Log-likelihood for State 3 (Trait
+                        2 Only)
+GAP_bayesian_p4_logl    GAP Bayesian Log-likelihood for State 4
+                        (Pleiotropic Association)
+GAP_bayesian_p4_logl_0_1_null
+                        GAP Bayesian Log-likelihood for State 4 with
+                        Trait 1 Null
+GAP_bayesian_p4_logl_1_2_null
+                        GAP Bayesian Log-likelihood for State 4 with
+                        Trait 2 Null
+GAP_bayesian_prior      Estimate GAP Bayesian Prior Parameters
+gap_example_beta_path   Example chr22 effect-size file bundled with GAP
+gap_example_data        Load packaged chr22 example data
+gap_example_se_path     Example chr22 standard-error file bundled with
+                        GAP
+GAP_prior_00_integral_v2
+                        GAP Prior Integral for State 00 (No
+                        Association)
+GAP_prior_01_integral_v2
+                        GAP Prior Integral for State 01 (Association
+                        with Trait 1 Only)
+GAP_prior_12_integral_v2
+                        GAP Prior Integral for State 12 (Association
+                        with Trait 2 Only)
+GAP_prior_cc_integral_v2
+                        GAP Prior Integral for State cc (Pleiotropic
+                        Association)
+GAP_prior_v2            GAP Prior Likelihood Function (Version 2)
