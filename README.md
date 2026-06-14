@@ -30,7 +30,6 @@ library(GAP)
 
 - `GAP_bayesian_prior()` estimates GAP Bayesian prior parameters.
 - `GAP_bayesian_lrt()` performs likelihood ratio tests for progression associations.
-- `find_loci()` identifies approximately independent loci by distance-based clumping.
 
 ## Input data format
 
@@ -39,8 +38,8 @@ library(GAP)
 - `snp`: SNP identifier
 - `chr`: Chromosome number
 - `pos`: Genomic position in base pairs
-- `beta_01`: Effect size for trait 0 -> 1
-- `beta_12`: Effect size for trait 1 -> 2
+- `beta_01`: Effect size for progression stage 0 -> 1
+- `beta_12`: Effect size for progression stage  1 -> 2
 - `beta_cc`: Effect size for the case-control study
 - `se_01`: Standard error for `beta_01`
 - `se_12`: Standard error for `beta_12`
@@ -48,7 +47,7 @@ library(GAP)
 
 Arguments:
 
-- `alpha`: log-scale quantity describing the ratio of sample size between stage-specific datasets, for example `log10(0.05)`
+- `alpha`: log-scale quantity describing the ratio of sample size of stage 1 over stage 0, for example `log10(0.05)`
 - `p_threshold`: p-value threshold used for clumping, for example `5e-8`
 - `random`: number of random non-significant SNPs used when estimating the prior, for example `50` or `100`
 
