@@ -1,0 +1,20 @@
+Package: GAP
+Type: Package
+Title: Genetic Association with Progression
+Version: 0.1.0
+Authors@R: person("Lida", "Wang", email = "lida.wang.96@gmail.com", role = c("aut", "cre"))
+Description: Methods to decompose case-control genetic effects into
+    stage-specific components and test for genetic associations with
+    disease progression using the GAP model.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.1.0)
+Imports: MASS, mvtnorm, stats, utils
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
+Config/roxygen2/version: 8.0.0
+NeedsCompilation: no
+Packaged: 2026-06-14 18:35:16 UTC; lida
+Author: Lida Wang [aut, cre]
+Maintainer: Lida Wang <lida.wang.96@gmail.com>
