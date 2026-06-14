@@ -149,7 +149,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<p><code>GAP</code> fits a genetic association with pleiotropy model using summary-level effect sizes and standard errors.</p>
+<p><code>GAP</code> fits a genetic association with progression model using summary-level effect sizes and standard errors.</p>
 <p>This vignette shows how to:</p>
 <ol style="list-style-type: decimal">
 <li>Load the packaged example files.</li>
@@ -178,11 +178,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 ENSG00000177663-22:16375930_C/A  0.082596  0.3343480          0.1070410</span></span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 ENSG00000177663-22:16377414_A/G  0.043304  0.0506421          0.0787306</span></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 ENSG00000177663-22:16377529_T/C  0.022261  0.0778027          0.0757937</span></span></code></pre></div>
-<p>The bundled files are the original gzipped tables under <code>inst/extdata</code>, so the same paths are also available through:</p>
+<p>The bundled files are also available through:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gap_example_beta_path</span>()</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;/private/var/folders/_b/vk21dc0929b8rdby5gx084940000gn/T/Rtmpo1nBrN/Rinst12387e6a806f/GAP/extdata/example_beta_chr22.txt.gz&quot;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;/private/var/folders/_b/vk21dc0929b8rdby5gx084940000gn/T/RtmpGCtuIO/Rinst63bc4f72ec90/GAP/extdata/example_beta_chr22.txt.gz&quot;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">gap_example_se_path</span>()</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;/private/var/folders/_b/vk21dc0929b8rdby5gx084940000gn/T/Rtmpo1nBrN/Rinst12387e6a806f/GAP/extdata/example_beta_se_chr22.txt.gz&quot;</span></span></code></pre></div>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;/private/var/folders/_b/vk21dc0929b8rdby5gx084940000gn/T/RtmpGCtuIO/Rinst63bc4f72ec90/GAP/extdata/example_beta_se_chr22.txt.gz&quot;</span></span></code></pre></div>
 </div>
 <div id="build-a-gap-input-table" class="section level2">
 <h2>Build a GAP input table</h2>
@@ -193,7 +193,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>Excitatory.neurons</code> as <code>beta_12</code></li>
 <li><code>bulk</code> as <code>beta_cc</code></li>
 </ul>
-<p>You can swap these columns for the pair of cell types relevant to your analysis.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>parse_chr22_id <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  chr_pos <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">&quot;^.*-([0-9]+):([0-9]+)_.*$&quot;</span>, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">1</span><span class="sc">\t\\</span><span class="st">2&quot;</span>, x)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  parts <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(chr_pos, <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">fixed =</span> <span class="cn">TRUE</span>)</span>

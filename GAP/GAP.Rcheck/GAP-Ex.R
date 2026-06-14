@@ -18,10 +18,7 @@ flush(stderr()); flush(stdout())
 ### ** Examples
 
 if (FALSE) {
-  # First estimate prior parameters
   prior_params <- GAP_bayesian_prior(input_data, alpha = 0.5, p_threshold = 5e-8, random = 100)
-
-  # Then perform likelihood ratio tests
   lrt_results <- GAP_bayesian_lrt(input_data, alpha = 0.5, prior = prior_params)
   head(lrt_results)
 }
@@ -42,7 +39,6 @@ flush(stderr()); flush(stdout())
 ### ** Examples
 
 if (FALSE) {
-  # Example usage with simulated data
   set.seed(123)
   n_snps <- 1000
   input_data <- data.frame(
@@ -57,7 +53,6 @@ if (FALSE) {
     se_cc = rep(0.05, n_snps)
   )
 
-  # Estimate prior parameters
   prior_params <- GAP_bayesian_prior(input_data, alpha = 0.5, p_threshold = 5e-8, random = 100)
   print(prior_params)
 }

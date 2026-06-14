@@ -358,7 +358,6 @@ GAP_prior_cc_integral_v2 <- function(beta, sd, rho, t1, t2, r, alpha) {
 #'
 #' @examples
 #' if (FALSE) {
-#'   # Example usage with simulated data
 #'   set.seed(123)
 #'   n_snps <- 1000
 #'   input_data <- data.frame(
@@ -373,7 +372,6 @@ GAP_prior_cc_integral_v2 <- function(beta, sd, rho, t1, t2, r, alpha) {
 #'     se_cc = rep(0.05, n_snps)
 #'   )
 #'
-#'   # Estimate prior parameters
 #'   prior_params <- GAP_bayesian_prior(input_data, alpha = 0.5, p_threshold = 5e-8, random = 100)
 #'   print(prior_params)
 #' }
@@ -658,10 +656,7 @@ GAP_bayesian_p4_logl_0_1_null <- function(x0, beta, sd, rho, alpha, t1, t2, r) {
 #'
 #' @examples
 #' if (FALSE) {
-#'   # First estimate prior parameters
 #'   prior_params <- GAP_bayesian_prior(input_data, alpha = 0.5, p_threshold = 5e-8, random = 100)
-#'
-#'   # Then perform likelihood ratio tests
 #'   lrt_results <- GAP_bayesian_lrt(input_data, alpha = 0.5, prior = prior_params)
 #'   head(lrt_results)
 #' }
@@ -804,3 +799,4 @@ GAP_bayesian_lrt <- function(input, alpha, prior) {
   colnames(df) <- c("snp", "beta_01", "beta_12", "zscore_01", "zscore_12")
   return(df)
 }
+

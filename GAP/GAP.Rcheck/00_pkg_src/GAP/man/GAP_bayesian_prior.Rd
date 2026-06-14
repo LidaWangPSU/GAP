@@ -60,7 +60,6 @@ This function:
 }
 \examples{
 if (FALSE) {
-  # Example usage with simulated data
   set.seed(123)
   n_snps <- 1000
   input_data <- data.frame(
@@ -75,7 +74,6 @@ if (FALSE) {
     se_cc = rep(0.05, n_snps)
   )
 
-  # Estimate prior parameters
   prior_params <- GAP_bayesian_prior(input_data, alpha = 0.5, p_threshold = 5e-8, random = 100)
   print(prior_params)
 }

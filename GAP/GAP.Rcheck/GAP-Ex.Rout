@@ -37,10 +37,7 @@ Type 'q()' to quit R.
 > ### ** Examples
 > 
 > if (FALSE) {
-+   # First estimate prior parameters
 +   prior_params <- GAP_bayesian_prior(input_data, alpha = 0.5, p_threshold = 5e-8, random = 100)
-+ 
-+   # Then perform likelihood ratio tests
 +   lrt_results <- GAP_bayesian_lrt(input_data, alpha = 0.5, prior = prior_params)
 +   head(lrt_results)
 + }
@@ -61,7 +58,6 @@ Type 'q()' to quit R.
 > ### ** Examples
 > 
 > if (FALSE) {
-+   # Example usage with simulated data
 +   set.seed(123)
 +   n_snps <- 1000
 +   input_data <- data.frame(
@@ -76,7 +72,6 @@ Type 'q()' to quit R.
 +     se_cc = rep(0.05, n_snps)
 +   )
 + 
-+   # Estimate prior parameters
 +   prior_params <- GAP_bayesian_prior(input_data, alpha = 0.5, p_threshold = 5e-8, random = 100)
 +   print(prior_params)
 + }
@@ -125,7 +120,7 @@ Check chr  2
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.054 0.006 0.06 0 0 
+Time elapsed:  0.054 0.006 0.063 0 0 
 > grDevices::dev.off()
 null device 
           1 

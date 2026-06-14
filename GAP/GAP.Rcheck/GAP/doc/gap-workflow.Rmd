@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-`GAP` fits a genetic association with pleiotropy model using summary-level
+`GAP` fits a genetic association with progression model using summary-level
 effect sizes and standard errors.
 
 This vignette shows how to:
@@ -38,8 +38,7 @@ names(beta)[1:5]
 head(beta[, 1:4])
 ```
 
-The bundled files are the original gzipped tables under `inst/extdata`, so the
-same paths are also available through:
+The bundled files are also available through:
 
 ```{r}
 gap_example_beta_path()
@@ -57,9 +56,6 @@ For illustration, we use:
 - `Astrocytes` as `beta_01`
 - `Excitatory.neurons` as `beta_12`
 - `bulk` as `beta_cc`
-
-You can swap these columns for the pair of cell types relevant to your
-analysis.
 
 ```{r}
 parse_chr22_id <- function(x) {
