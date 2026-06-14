@@ -126,7 +126,7 @@ head(example_input)
 
 ## Example data repository
 
-The original example files are also available in the GitHub repository:
+The original example input and output files are also available in the GitHub repository:
 
 [https://github.com/LidaWangPSU/GAP/tree/main/example_data](https://github.com/LidaWangPSU/GAP/tree/main/example_data)
 
