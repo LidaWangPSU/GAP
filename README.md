@@ -108,7 +108,7 @@ The vignette demonstrates how to:
 
 - load the packaged example input file
 - inspect the required input columns
-- run `GAP_bayesian_prior()` on a small working subset
+- run GAP functions
 
 ## Packaged example data
 
