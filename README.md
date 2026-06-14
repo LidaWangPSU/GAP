@@ -90,7 +90,7 @@ head(results)
 ## Vignette
 
 This package includes a vignette showing a full workflow using the packaged
-chr22 example files.
+example dataset.
 
 After installing the package, open the vignette with:
 
@@ -106,28 +106,23 @@ browseVignettes("GAP")
 
 The vignette demonstrates how to:
 
-- load the packaged example files
-- parse chromosome and position information from the example IDs
-- build a valid GAP input table
+- load the packaged example input file
+- inspect the required input columns
 - run `GAP_bayesian_prior()` on a small working subset
 
 ## Packaged example data
 
-The package includes two gzipped example files under `inst/extdata`:
+The package includes a ready-to-use example input file under `inst/extdata`:
 
-- `example_beta_chr22.txt.gz`
-- `example_beta_se_chr22.txt.gz`
+- `example.txt`
 
 You can access them from R with:
 
 ```r
-gap_example_beta_path()
-gap_example_se_path()
+gap_example_path()
 
-example_files <- gap_example_data()
-names(example_files)
-head(example_files$beta)
-head(example_files$se)
+example_input <- gap_example_data()
+head(example_input)
 ```
 
 ## Example data repository
