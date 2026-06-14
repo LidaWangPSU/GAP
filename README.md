@@ -111,7 +111,7 @@ The vignette demonstrates how to:
 
 ## Packaged example data
 
-The package includes a ready-to-use example input and output file under `inst/extdata`:
+The package includes a ready-to-use example input file under `inst/extdata`:
 
 - `example.txt`
 
