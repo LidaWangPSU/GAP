@@ -29,7 +29,7 @@ gap_example_se_path <- function() {
 #' @export
 gap_example_data <- function() {
   list(
-    beta = utils::read.delim(gap_example_beta_path(), check.names = FALSE),
-    se = utils::read.delim(gap_example_se_path(), check.names = FALSE)
+    beta = read.delim(gap_example_beta_path(), check.names = FALSE),
+    se = read.delim(gap_example_se_path(), check.names = FALSE)
   )
 }
